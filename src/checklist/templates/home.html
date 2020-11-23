@@ -1,8 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+li {
+  display:inline;
+}
+</style>
 <h1>Checkist Item</h1>
 
+<form action='.' method="POST"> {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
+</form>
+
+<p></p>
+<p></p>
 {% for task in arr %}
-    <li>{{ task }}</li>
+    {% if not task.task_completed %}
+        <li>{{ task.todo_item }}</li>
+        <a href="{% url 'delete' task.id %}">Delete</a>
+        <a href="{% url 'complete' task.id %}">Complete</a>
+        <p></p>
+    {% endif %}
+{% endfor %}
+
+<h1>Completed Tasks</h1>
+{% for task in arr %}
+    {% if task.task_completed %}
+        <li>{{ task.todo_item }}</li>
+        <p></p>
+    {% endif %}
 {% endfor %}
 </html>
